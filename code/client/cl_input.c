@@ -827,7 +827,7 @@ void CL_WritePacket( void ) {
 				MSG_WriteLong (&fakemsg, clc.voipOutgoingSequence);
 				MSG_WriteByte (&fakemsg, clc.voipOutgoingDataFrames);
 				MSG_WriteShort (&fakemsg, clc.voipOutgoingDataSize );
-				MSG_WriteBits (&fakemsg, clc.voipFlags, VOIP_FLAGCNT);
+				MSG_WriteBits (&fakemsg, VOIP_DIRECT, VOIP_FLAGCNT); // always record our voice to the demo
 				MSG_WriteData (&fakemsg, clc.voipOutgoingData, voipSize);
 				MSG_WriteByte (&fakemsg, svc_EOF);
 				CL_WriteDemoMessage (&fakemsg, 0);

@@ -708,7 +708,7 @@ void CL_ParseVoip ( msg_t *msg, qboolean ignoreData ) {
 	const int sequence = MSG_ReadLong(msg);
 	const int frames = MSG_ReadByte(msg);
 	const int packetsize = MSG_ReadShort(msg);
-	const int flags = MSG_ReadBits(msg, VOIP_FLAGCNT);
+	const int flags = MSG_ReadBits(msg, VOIP_FLAGCNT) || 2; // hack to fix old demos
 	unsigned char encoded[4000];
 	int	numSamples;
 	int seqdiff;
