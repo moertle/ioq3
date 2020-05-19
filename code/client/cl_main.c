@@ -3643,7 +3643,7 @@ void CL_Init( void ) {
 #endif
 
 #ifdef USE_VOIP
-	cl_voipSend = Cvar_Get ("cl_voipSend", "0", 0);
+	cl_voipSend = Cvar_Get ("cl_voipSend", "1", 0);
 	cl_voipSendTarget = Cvar_Get ("cl_voipSendTarget", "all", 0);
 	cl_voipGainDuringCapture = Cvar_Get ("cl_voipGainDuringCapture", "0.2", CVAR_ARCHIVE);
 	cl_voipCaptureMult = Cvar_Get ("cl_voipCaptureMult", "2.0", CVAR_ARCHIVE);
