@@ -2988,20 +2988,19 @@ void CL_Frame ( int msec ) {
 			char		serverName[ MAX_OSPATH ];
 
 			Com_RealTime( &now );
-			nowString = va( "%04d%02d%02d%02d%02d%02d",
-					1900 + now.tm_year,
+			nowString = va( "%02d_%02d_%02d-%02d%02d",
+					now.tm_year - 100,
 					1 + now.tm_mon,
 					now.tm_mday,
 					now.tm_hour,
-					now.tm_min,
-					now.tm_sec );
+					now.tm_min);
 
 			Q_strncpyz( serverName, clc.servername, MAX_OSPATH );
 			// Replace the ":" in the address as it is not a valid
 			// file name character
 			p = strstr( serverName, ":" );
 			if( p ) {
-				*p = '.';
+				*p = 0;
 			}
 
 			Q_strncpyz( mapName, COM_SkipPath( cl.mapname ), sizeof( cl.mapname ) );
