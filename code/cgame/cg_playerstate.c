@@ -35,39 +35,45 @@ If the ammo has gone low enough to generate the warning, play a sound
 ==============
 */
 void CG_CheckAmmo( void ) {
-	int		i;
 	int		total;
 	int		previous;
-	int		weapons;
+	int		value;
 
-	// see about how many seconds of ammo we have remaining
-	weapons = cg.snap->ps.stats[ STAT_WEAPONS ];
-	total = 0;
-	for ( i = WP_MACHINEGUN ; i < WP_NUM_WEAPONS ; i++ ) {
-		if ( ! ( weapons & ( 1 << i ) ) ) {
-			continue;
-		}
-		if ( cg.snap->ps.ammo[i] < 0 ) {
-			continue;
-		}
-		switch ( i ) {
-		case WP_ROCKET_LAUNCHER:
-		case WP_GRENADE_LAUNCHER:
-		case WP_RAILGUN:
-		case WP_SHOTGUN:
+	centity_t	*cent;
+	playerState_t	*ps;
+
+	cent = &cg_entities[cg.snap->ps.clientNum];
+	ps = &cg.snap->ps;
+
+	if ( ! cent->currentState.weapon ) {
+		cg.lowAmmoWarning = 0;
+		return;
+	}
+
+	value = ps->ammo[cent->currentState.weapon];
+	if ( value < 0 ) {
+		cg.lowAmmoWarning = 0;
+		return;
+	}
+
+	switch ( cent->currentState.weapon ) {
+	case WP_ROCKET_LAUNCHER:
+	case WP_GRENADE_LAUNCHER:
+	case WP_RAILGUN:
+	case WP_SHOTGUN:
 #ifdef MISSIONPACK
-		case WP_PROX_LAUNCHER:
+	case WP_PROX_LAUNCHER:
 #endif
-			total += cg.snap->ps.ammo[i] * 1000;
-			break;
-		default:
-			total += cg.snap->ps.ammo[i] * 200;
-			break;
-		}
-		if ( total >= 5000 ) {
-			cg.lowAmmoWarning = 0;
-			return;
-		}
+		total = value * 1000;
+		break;
+	default:
+		total = value * 200;
+		break;
+	}
+
+	if ( total >= 5000 ) {
+		cg.lowAmmoWarning = 0;
+		return;
 	}
 
 	previous = cg.lowAmmoWarning;
